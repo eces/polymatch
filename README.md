@@ -1,6 +1,6 @@
 # polymatch
 
-```
+```js
 const Polymatch = require('polymatch')
 const filters = new Polymatch()
 
