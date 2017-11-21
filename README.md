@@ -1,5 +1,10 @@
 # polymatch
 
+- `Accept: application/json+user` will trigger `user` filter
+- `Accept: application/json+v1+user` will trigger both `v1` and `user` filters respectively.
+- `.to(['v1', 'user'])` will trigger also.
+- `.to('application/json+v1+user')` will trigger also.
+
 ```js
 const Polymatch = require('polymatch')
 const filters = new Polymatch()
