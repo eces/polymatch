@@ -1,0 +1,61 @@
+{
+  "name": "polymatch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eces/polymatch.git"
+  },
+  "keywords": [
+    "bash",
+    "expand",
+    "expansion",
+    "expression",
+    "file",
+    "files",
+    "filter",
+    "find",
+    "glob",
+    "globbing",
+    "globs",
+    "globstar",
+    "match",
+    "matcher",
+    "matches",
+    "matching",
+    "micromatch",
+    "minimatch",
+    "multimatch",
+    "nanomatch",
+    "path",
+    "pattern",
+    "patterns",
+    "regex",
+    "regexp",
+    "regular",
+    "shell",
+    "wildcard"
+  ],
+  "author": "Jin Lee",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eces/polymatch/issues"
+  },
+  "homepage": "https://github.com/eces/polymatch#readme",
+  "dependencies": {
+    "debug": "^3.1.0",
+    "lodash": "^4.17.4",
+    "nanomatch": "^1.2.5"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "debugs": "^1.0.6"
+  },
+  "debugs": [
+    "polymatch*"
+  ]
+}
