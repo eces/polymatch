@@ -32,3 +32,26 @@ const result = this.filters
                 .to(req.get('accept') || ['json'])
                 .value()
 ```
+
+Try
+
+```js
+> a = require('./index.js')
+[Function: Polymatch]
+> b = new a
+Polymatch { targets: [] }
+> b.on('a').use('a', (input) => { return 'bbbb' })
+Polymatch { targets: [ a: { a: [Function] } ], selectedTarget: 'a' }
+> b.on('a').from(3).to('a').value()
+3
+> b.on('a').from(3).to('ab').value()
+3
+> b.on('a').from(3).to('absdf').value()
+3
+> b.on('adsf').from(3).to('absdf').value()
+3
+> b.on('a').from(3).to(['a']).value()
+'bbbb'
+> b.on('a').from(3).to('application/json+a').value()
+'bbbb'
+```
