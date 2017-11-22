@@ -1,11 +1,15 @@
 # polymatch
 
+### Summary 
+
 - `Accept: application/json+user` will trigger `user` filter
 - `Accept: application/json+v1+user` will trigger both `v1` and `user` filters respectively.
 - `.type(['v1', 'user'])` will trigger also.
 - `.type('application/json+v1+user')` will trigger also.
 - `filter1.use(filter2)` composition works; similar to express-router.
 - `filter1.use({ key: [Function] })` json composition works.
+
+### Examples
 
 ```js
 const Polymatch = require('polymatch')
@@ -56,6 +60,10 @@ Polymatch { targets: [ a: { a: [Function] } ], selectedTarget: 'a' }
 > b.on('a').from(3).to('application/json+a').value()
 'bbbb'
 ```
+
+### Tests
+
+`mocha test.js`
 
 ### Changelog
 
