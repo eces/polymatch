@@ -2,8 +2,10 @@
 
 - `Accept: application/json+user` will trigger `user` filter
 - `Accept: application/json+v1+user` will trigger both `v1` and `user` filters respectively.
-- `.to(['v1', 'user'])` will trigger also.
-- `.to('application/json+v1+user')` will trigger also.
+- `.type(['v1', 'user'])` will trigger also.
+- `.type('application/json+v1+user')` will trigger also.
+- `filter1.use(filter2)` composition works; similar to express-router.
+- `filter1.use({ key: [Function] })` json composition works.
 
 ```js
 const Polymatch = require('polymatch')
@@ -24,12 +26,11 @@ filters
     .on('v1/result*')
     .use(require('./filter.result.js'))
 
-
 // on router and handler
 const result = this.filters
                 .on('v1/result.xml')
-                .from(rows)
-                .to(req.get('accept') || ['json'])
+                .input(rows)
+                .type(req.get('accept') || ['json'])
                 .value()
 ```
 
@@ -55,3 +56,12 @@ Polymatch { targets: [ a: { a: [Function] } ], selectedTarget: 'a' }
 > b.on('a').from(3).to('application/json+a').value()
 'bbbb'
 ```
+
+### Changelog
+
+- Version 1.1.0 **2017-11-22**: `from` to `input`, `to` to `type`
+- Version 1.0.2 **2017-11-21**: Go to public with MIT license.
+
+### Author
+
+Jin Lee (currently working at @playauto)

@@ -8,7 +8,7 @@ const nm = require('nanomatch')
 
 module.exports = class Polymatch {
     constructor () {
-        this.targets = []
+        this.targets = {}
     }
     on (target) {
         if(_.isFunction(target)){
@@ -25,13 +25,18 @@ module.exports = class Polymatch {
         }
         if(arguments.length == 1) {
             const filters = arguments[0]
+            if(filters instanceof PlayautoFilter){
+                this.selectedTarget = filters.selectedTarget
+                _.merge(this.targets, filters.targets)
+                return this
+            }
             if(!_.isObject(filters)){
                 throw new Error('filters type invalid')
             }
             for(let [key, value] of Object.entries(filters)){
                 this.use(key, value)
             }
-            return
+            return this
         }
         if(!_.isFunction(filter)){
             throw new Error('filter not function')
@@ -43,11 +48,11 @@ module.exports = class Polymatch {
         this.targets[this.selectedTarget][name] = filter
         return this
     }
-    from (input) {
+    input (input) {
         this.input = input
         return this
     }
-    to (type) {
+    type (type) {
         if(_.isString(type)){
             if(type.includes(',')){
                 type = type.split(',')[0]
