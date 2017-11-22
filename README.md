@@ -47,32 +47,51 @@ Try
 Polymatch { targets: [] }
 
 > f.on('name/v1').use('full', (input) => { input.full = input.first + ' ' + input.last; return input })
-Polymatch { targets: [ "name/v1": { full: [Function] } ], selectedTarget: 'name/v1' }
+Polymatch {
+  targets: { 'name/v1': { full: [Function] } },
+  selectedTarget: 'name/v1' }
 
 > name = {first: 'Barack', last: 'Obama'}
 
-> f.on('name/v1').input(name).type('full').value()
-{first: 'Barack', last: 'Obama', full: 'Barack Obama'}
-
-> f.on('name/v1').input(name).type('simple').value()
+> f.on('name/v1').input(name).type('application/json+not-existing-type').value()
 {first: 'Barack', last: 'Obama'}
 
-> f.on('name/v1').input(name).type('not existing type').value()
+> f.on('name/version-3').input(name).type('application/json+full').value()
 {first: 'Barack', last: 'Obama'}
-
-> f.on('name/version-3').input(name).type('full').value()
-{first: 'Barack', last: 'Obama'}
-
-> f.on('name/v1').input(name).type(['full']).value()
-{first: 'Barack', last: 'Obama', full: 'Barack Obama'}
 
 > f.on('name/v1').input(name).type('application/json+full').value()
+{first: 'Barack', last: 'Obama', full: 'Barack Obama'}
+
+
+> f.on('name/v1').use({simple: (input) => { input.simple = input.first[0] + input.last[0]; return input }})
+
+> f.on('name/v1').input(name).type('application/json+simple').value()
+{ first: 'Barack',
+  last: 'Obama',
+  full: 'Barack Obama',
+  simple: 'BO' }
+
+> f.on('name/v1').input({first: 'Barack', last: 'Obama'}).type(['full']).value()
 {first: 'Barack', last: 'Obama', full: 'Barack Obama'}
 ```
 
 ### Tests
 
 `mocha test.js`
+
+```
+  filter
+    ✓ payload with single mime-type string
+    ✓ payload with multiple mime-type string
+    ✓ composition with json
+    ✓ payload with multiple mime-type array
+    - payload with undefined filters
+    - payload with multiple require filters
+
+
+  4 passing (12ms)
+  2 pending
+```
 
 ### Changelog
 

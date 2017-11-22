@@ -1,6 +1,6 @@
 {
   "name": "polymatch",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -48,12 +48,12 @@
   "homepage": "https://github.com/eces/polymatch#readme",
   "dependencies": {
     "debug": "^3.1.0",
+    "debugs": "^1.0.6",
     "lodash": "^4.17.4",
     "nanomatch": "^1.2.5"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "debugs": "^1.0.6"
+    "chai": "^4.1.2"
   },
   "debugs": [
     "polymatch*"

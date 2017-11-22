@@ -1,3 +1,5 @@
+require('debugs/init')
+
 const _ = require('lodash')
 const debug = require('debug')('polymatch')
 const nm = require('nanomatch')
@@ -9,6 +11,7 @@ const nm = require('nanomatch')
 module.exports = class Polymatch {
     constructor () {
         this.targets = {}
+        this.logger = debug
     }
     on (target) {
         if(_.isFunction(target)){
@@ -25,7 +28,7 @@ module.exports = class Polymatch {
         }
         if(arguments.length == 1) {
             const filters = arguments[0]
-            if(filters instanceof PlayautoFilter){
+            if(filters instanceof Polymatch){
                 this.selectedTarget = filters.selectedTarget
                 _.merge(this.targets, filters.targets)
                 return this
@@ -49,7 +52,7 @@ module.exports = class Polymatch {
         return this
     }
     input (input) {
-        this.input = input
+        this.selectedInput = input
         return this
     }
     type (type) {
@@ -72,9 +75,9 @@ module.exports = class Polymatch {
     value () {
         if (this.types.length === 0) {
             debug('skip')
-            return this.input
+            return this.selectedInput
         }
-        debug('before %O', this.input)
+        debug('before %O', this.selectedInput)
         const untouched_filter = new Set(this.types)
 
         for(let [key, target] of Object.entries(this.targets)){
@@ -85,7 +88,7 @@ module.exports = class Polymatch {
                     // debug('target.type? %o %O', type, target)
                     if(target[type]){
                         // debug('target.type %o', type)
-                        this.input = target[type](this.input)
+                        this.selectedInput = target[type](this.selectedInput)
                         untouched_filter.delete(type)
                         continue
                     }
@@ -93,13 +96,13 @@ module.exports = class Polymatch {
             }
         }
         untouched_filter.forEach( e => {
-            logger.warn(`filters(${e}) not found`)
+            this.logger(`filters(${e}) not found`)
         })
         
         if(untouched_filter.size === 0){
-            debug(' after %O', this.input)
+            debug(' after %O', this.selectedInput)
         }
-        return this.input
+        return this.selectedInput
     }
     
 }
