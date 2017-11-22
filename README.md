@@ -41,24 +41,33 @@ const result = this.filters
 Try
 
 ```js
-> a = require('./index.js')
+> Polymatch = require('polymatch')
 [Function: Polymatch]
-> b = new a
+> f = new Polymatch
 Polymatch { targets: [] }
-> b.on('a').use('a', (input) => { return 'bbbb' })
-Polymatch { targets: [ a: { a: [Function] } ], selectedTarget: 'a' }
-> b.on('a').from(3).to('a').value()
-3
-> b.on('a').from(3).to('ab').value()
-3
-> b.on('a').from(3).to('absdf').value()
-3
-> b.on('adsf').from(3).to('absdf').value()
-3
-> b.on('a').from(3).to(['a']).value()
-'bbbb'
-> b.on('a').from(3).to('application/json+a').value()
-'bbbb'
+
+> f.on('name/v1').use('full', (input) => { input.full = input.first + ' ' + input.last; return input })
+Polymatch { targets: [ "name/v1": { full: [Function] } ], selectedTarget: 'name/v1' }
+
+> name = {first: 'Barack', last: 'Obama'}
+
+> f.on('name/v1').input(name).type('full').value()
+{first: 'Barack', last: 'Obama', full: 'Barack Obama'}
+
+> f.on('name/v1').input(name).type('simple').value()
+{first: 'Barack', last: 'Obama'}
+
+> f.on('name/v1').input(name).type('not existing type').value()
+{first: 'Barack', last: 'Obama'}
+
+> f.on('name/version-3').input(name).type('full').value()
+{first: 'Barack', last: 'Obama'}
+
+> f.on('name/v1').input(name).type(['full']).value()
+{first: 'Barack', last: 'Obama', full: 'Barack Obama'}
+
+> f.on('name/v1').input(name).type('application/json+full').value()
+{first: 'Barack', last: 'Obama', full: 'Barack Obama'}
 ```
 
 ### Tests
